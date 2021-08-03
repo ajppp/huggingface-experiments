@@ -7,9 +7,11 @@ The code is written entirely in Python and it requires:
 
 - Pytorch
 - SacreBLEU 
-- [(transformers >= 4.7.0)](https://huggingface.co/transformers/)
-- [(datasets)](https://github.com/huggingface/datasets)
-- [(tokenizers)](https://github.com/huggingface/tokenizers)
+- [transformers >= 4.7.0](https://huggingface.co/transformers/)
+- [datasets](https://github.com/huggingface/datasets)
+- [tokenizers](https://github.com/huggingface/tokenizers)
+- Jupyter 
+- numpy
 
 ## Usage
 
@@ -28,6 +30,8 @@ Tokenizers for the languages also need to be trained before training the transla
 The script used to train a translation model from scratch for the parent model is `train_bart.py`. Parameters for the training such as model parameters or training parameters are set in the `.yaml` file: `train_bart_config.yaml`. After training the parent model, we load the parent model by specifying the model directory in `train_bart_from_pretrained.yaml`. Training parameters can also be set at that file. It is possible to change how many encoder/decoder layers have their parameters frozen in the notebook `train_bart_from_pretrained.ipynb`.
 
 During training, the model will evaluate the model at fixed intervals (steps or epochs) which can be set in the yaml file. It will output not only the loss on the dev set but also the BLEU score for the dev set. This is calculated using SacreBLEU.
+
+To run using GPU, just do `CUDA_VISIBLE_DEVICES=X` depending on how many GPUs you want to use. Without that, the script will automatically use all the available GPUs available to it. 
 
 ## Acknowledgements
 
