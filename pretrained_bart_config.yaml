@@ -1,0 +1,39 @@
+train_data_dir: indomain_data/trial_en_es_train.json
+valid_data_dir: indomain_data/trial_en_es_valid.json
+
+source_lang: en
+target_lang: es
+
+source_tokenizer: bpe/en_tok.json
+target_tokenizer: bpe_en_es/es_tok.json
+
+encoder_max_length: 256
+decoder_max_length: 256
+
+metric: sacrebleu
+
+# Model Config
+checkpoint: saved_checkpoints/checkpoint-97000
+
+# Training Config
+
+output_dir: bart_en_id_es
+batch_size: 28
+evaluation_strategy: steps
+eval_steps: 500
+learning_rate: 6e-5
+warmup_steps: 4000
+label_smoothing_factor: 0.1
+weight_decay: 0.1
+max_grad_norm: 1.0
+num_train_epochs: 500
+lr_scheduler_type: linear
+save_strategy: steps
+save_steps: 2000
+save_total_limit: 10
+seed: 42
+fp16: True
+adafactor: True
+predict_with_generate: True
+logging_strategy: steps
+logging_steps: 500
