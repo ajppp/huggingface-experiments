@@ -9,28 +9,31 @@ from tokenizers.processors import TemplateProcessing
 import os
 import argparse
 
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="trains tokenizers for sentences stored in txt format and save the tokenizer as a JSON")
+    parser = argparse.ArgumentParser(
+        description="trains tokenizers for sentences stored in txt format and save the tokenizer as a JSON"
+    )
 
-    parser.add_argument('data_path',
-                        metavar='data_path',
-                        type=str,
-                        help='the path to the language data')
+    parser.add_argument(
+        "data_path", metavar="data_path", type=str, help="the path to the language data"
+    )
 
-    parser.add_argument('lang',
-                        metavar='lang',
-                        type=str,
-                        help='the language')
+    parser.add_argument("lang", metavar="lang", type=str, help="the language")
 
-    parser.add_argument('output_directory',
-                        metavar='output_directory',
-                        type=str,
-                        help='the path to the output directory')
+    parser.add_argument(
+        "output_directory",
+        metavar="output_directory",
+        type=str,
+        help="the path to the output directory",
+    )
 
-    parser.add_argument('vocab_size',
-                        metavar='vocab_size',
-                        type=int,
-                        help='the number of subwords in the dict')
+    parser.add_argument(
+        "vocab_size",
+        metavar="vocab_size",
+        type=int,
+        help="the number of subwords in the dict",
+    )
 
     args = parser.parse_args()
 
@@ -40,12 +43,12 @@ def main() -> None:
     source_lang = args.source_lang
     output_directory = args.output_directory
     vocab_size = args.vocab_size
-    saved_file = output_directory + '/' + source_lang + "_tok.json"
+    saved_file = output_directory + "/" + source_lang + "_tok.json"
 
-    special_tokens = ['[UNK]', '[CLS]', '[SEP]', '[PAD]', '[MASK]']
+    special_tokens = ["[UNK]", "[CLS]", "[SEP]", "[PAD]", "[MASK]"]
 
     # initialize the two tokenizers and the trainer
-    tokenizer = Tokenizer(BPE(unk_token='[UNK]'))
+    tokenizer = Tokenizer(BPE(unk_token="[UNK]"))
     tokenizer.normalizer = normalizers.Sequence([NFKC()])
     tokenizer.pre_tokenizer = Whitespace()
     tokenizer.post_processor = TemplateProcessing(
@@ -66,5 +69,6 @@ def main() -> None:
 
     print("Tokenizer JSON file saved at:", os.path.relpath(saved_file))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

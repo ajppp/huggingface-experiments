@@ -3,14 +3,22 @@ import os
 import argparse
 import random
 
+
 def get_list(filename: str) -> list:
-    text = open(filename, mode='r')
+    text = open(filename, mode="r")
     text_list = text.read().splitlines()
-    text_list = list(map(lambda x: normalize('NFKC', x), text_list))
+    text_list = list(map(lambda x: normalize("NFKC", x), text_list))
     text.close()
     return text_list
 
-def convert_to_dict(source_file: str, target_file: str, source_lang: str, target_lang: str, valid_percentage: int) -> tuple:
+
+def convert_to_dict(
+    source_file: str,
+    target_file: str,
+    source_lang: str,
+    target_lang: str,
+    valid_percentage: int,
+) -> tuple:
     source_list = get_list(source_file)
     target_list = get_list(target_file)
 
@@ -47,38 +55,47 @@ def convert_to_dict(source_file: str, target_file: str, source_lang: str, target
 
     return train_translation_list, valid_translation_list
 
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="converts sentence pairs stored in txt files to a json format to permit easy loading by huggingface datasets module")
+    parser = argparse.ArgumentParser(
+        description="converts sentence pairs stored in txt files to a json format to permit easy loading by huggingface datasets module"
+    )
 
-    parser.add_argument('source_path',
-                        metavar='source_path',
-                        type=str,
-                        help='the path to the source language data')
+    parser.add_argument(
+        "source_path",
+        metavar="source_path",
+        type=str,
+        help="the path to the source language data",
+    )
 
-    parser.add_argument('target_path',
-                        metavar='target_path',
-                        type=str,
-                        help='the path to the target language data')
+    parser.add_argument(
+        "target_path",
+        metavar="target_path",
+        type=str,
+        help="the path to the target language data",
+    )
 
-    parser.add_argument('source_lang',
-                        metavar='source_lang',
-                        type=str,
-                        help='the source language')
+    parser.add_argument(
+        "source_lang", metavar="source_lang", type=str, help="the source language"
+    )
 
-    parser.add_argument('target_lang',
-                        metavar='target_lang',
-                        type=str,
-                        help='the target language')
+    parser.add_argument(
+        "target_lang", metavar="target_lang", type=str, help="the target language"
+    )
 
-    parser.add_argument('output_file',
-                        metavar='output_file',
-                        type=str,
-                        help='the path to the output file')
+    parser.add_argument(
+        "output_file",
+        metavar="output_file",
+        type=str,
+        help="the path to the output file",
+    )
 
-    parser.add_argument('percentage',
-                        metavar='percentage',
-                        type=int,
-                        help='the percentage of the data that should go to the dev set')
+    parser.add_argument(
+        "percentage",
+        metavar="percentage",
+        type=int,
+        help="the percentage of the data that should go to the dev set",
+    )
 
     args = parser.parse_args()
 
@@ -91,26 +108,37 @@ def main() -> None:
     output_file = args.output_file
     percentage = args.percentage
 
-    train_output_file: str = output_file + '_train.json'
-    valid_output_file: str = output_file + '_valid.json'
+    train_output_file: str = output_file + "_train.json"
+    valid_output_file: str = output_file + "_valid.json"
 
     print(source_path, target_path)
 
-    train_translation_list, valid_translation_list = convert_to_dict(source_path,
-                                                                     target_path,
-                                                                     source_lang,
-                                                                     target_lang,
-                                                                     percentage)
+    train_translation_list, valid_translation_list = convert_to_dict(
+        source_path, target_path, source_lang, target_lang, percentage
+    )
 
     train_json_dict = {"data": train_translation_list}
     valid_json_dict = {"data": valid_translation_list}
 
-    train_output_file = open(train_output_file, "w", encoding='utf8')
-    valid_output_file = open(valid_output_file, "w", encoding='utf8')
-    json.dump(train_json_dict, train_output_file, indent=4, sort_keys=False, ensure_ascii=False)
-    json.dump(valid_json_dict, valid_output_file, indent=4, sort_keys=False, ensure_ascii=False)
+    train_output_file = open(train_output_file, "w", encoding="utf8")
+    valid_output_file = open(valid_output_file, "w", encoding="utf8")
+    json.dump(
+        train_json_dict,
+        train_output_file,
+        indent=4,
+        sort_keys=False,
+        ensure_ascii=False,
+    )
+    json.dump(
+        valid_json_dict,
+        valid_output_file,
+        indent=4,
+        sort_keys=False,
+        ensure_ascii=False,
+    )
     train_output_file.close()
     valid_output_file.close()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

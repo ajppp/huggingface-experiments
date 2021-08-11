@@ -1,11 +1,11 @@
-train_data_dir: indomain_data/trial_en_es_train.json
-valid_data_dir: indomain_data/trial_en_es_valid.json
+train_data_dir: indomain_data / trial_en_es_train.json
+valid_data_dir: indomain_data / trial_en_es_valid.json
 
 source_lang: en
 target_lang: es
 
-source_tokenizer: bpe_en_es/en_tok.json
-target_tokenizer: bpe_en_es/es_tok.json
+source_tokenizer: bpe_en_es / en_tok.json
+target_tokenizer: bpe_en_es / es_tok.json
 
 encoder_max_length: 256
 decoder_max_length: 256
